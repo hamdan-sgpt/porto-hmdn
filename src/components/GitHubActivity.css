@@ -157,6 +157,21 @@
   background: transparent !important;
 }
 
+.gh-heatmap-img {
+  min-width: 720px;
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Invert white background to black while keeping the green contribution cells green */
+  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(1.2);
+  transition: all 0.4s var(--ease-out-expo);
+}
+
+.gh-heatmap-card:hover .gh-heatmap-img {
+  filter: invert(1) hue-rotate(180deg) brightness(1) contrast(1.3);
+}
+
+
 .gh-heatmap-fallback {
   width: 100%;
   min-height: 110px;

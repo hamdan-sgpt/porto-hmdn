@@ -7,7 +7,7 @@ const GITHUB_USERNAME = 'hamdan-sgpt';
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 // Simple in-memory cache
-const cache = { profile: null, events: null, heatmapSvg: null, timestamp: 0 };
+const cache = { profile: null, events: null, timestamp: 0 };
 
 const eventIcons = {
   PushEvent: FiGitCommit,
@@ -107,18 +107,17 @@ ActivityItem.displayName = 'ActivityItem';
 const GitHubActivity = () => {
   const [profile, setProfile] = useState(null);
   const [events, setEvents] = useState([]);
-  const [heatmapSvg, setHeatmapSvg] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   const fetchData = useCallback(async () => {
     // Check cache first
-    if (cache.profile && cache.events && cache.heatmapSvg && Date.now() - cache.timestamp < CACHE_DURATION) {
+    if (cache.profile && cache.events && Date.now() - cache.timestamp < CACHE_DURATION) {
       setProfile(cache.profile);
       setEvents(cache.events);
-      setHeatmapSvg(cache.heatmapSvg);
       setLoading(false);
       return;
     }
@@ -134,33 +133,13 @@ const GitHubActivity = () => {
       const profileData = await profileRes.json();
       const eventsData = await eventsRes.json();
       
-      let svgText = '';
-      try {
-        const heatmapRes = await fetch(`https://ghchart.rshah.org/39d353/${GITHUB_USERNAME}`);
-        if (heatmapRes.ok) {
-          svgText = await heatmapRes.text();
-          // Modify SVG colors to look exactly like GitHub Dark Mode
-          svgText = svgText
-            .replace(/fill="#ebedf0"/g, 'fill="#161b22"') // Empty
-            .replace(/fill="#c6e48b"/g, 'fill="#0e4429"') // Level 1 (Light Green)
-            .replace(/fill="#7bc96f"/g, 'fill="#006d32"') // Level 2
-            .replace(/fill="#239a3b"/g, 'fill="#26a641"') // Level 3
-            .replace(/fill="#196127"/g, 'fill="#39d353"') // Level 4 (Bright Green)
-            .replace(/<text/g, '<text fill="#8b949e" font-size="9" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif"');
-        }
-      } catch (svgErr) {
-        console.warn('CORS or network error fetching SVG heatmap:', svgErr);
-      }
-
       // Update cache
       cache.profile = profileData;
       cache.events = eventsData;
-      cache.heatmapSvg = svgText;
       cache.timestamp = Date.now();
 
       setProfile(profileData);
       setEvents(eventsData);
-      setHeatmapSvg(svgText);
     } catch (err) {
       console.warn('GitHub API fetch failed:', err);
       setError(true);
@@ -239,18 +218,21 @@ const GitHubActivity = () => {
                 </span>
               </div>
               <div className="gh-heatmap-wrap">
-                {heatmapSvg ? (
-                  <div 
-                    className="gh-heatmap-svg-container"
-                    dangerouslySetInnerHTML={{ __html: heatmapSvg }} 
-                  />
-                ) : (
+                {imgError ? (
                   <div className="gh-heatmap-fallback">
                     <span>Unable to load contribution graph directly.</span>
                     <a href={`https://github.com/${GITHUB_USERNAME}`} target="_blank" rel="noopener noreferrer">
                       View on GitHub <FiArrowUpRight />
                     </a>
                   </div>
+                ) : (
+                  <img 
+                    src={`https://ghchart.rshah.org/39d353/${GITHUB_USERNAME}`} 
+                    alt="GitHub Contribution Heatmap" 
+                    className="gh-heatmap-img"
+                    loading="lazy"
+                    onError={() => setImgError(true)}
+                  />
                 )}
               </div>
             </motion.div>

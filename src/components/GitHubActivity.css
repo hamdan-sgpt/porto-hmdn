@@ -3,8 +3,8 @@
   z-index: 10;
 }
 
-/* Header link button */
-.gh-profile-link-btn {
+/* Header link */
+.gh-profile-link {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -20,18 +20,18 @@
   margin-bottom: 10px;
 }
 
-.gh-profile-link-btn:hover {
+.gh-profile-link:hover {
   border-color: var(--accent);
   color: var(--accent);
   background: var(--accent-glow);
   box-shadow: 0 0 25px rgba(0, 220, 130, 0.15);
 }
 
-.gh-profile-link-btn svg:last-child {
+.gh-profile-link svg:last-child {
   transition: transform 0.3s var(--ease-out-expo);
 }
 
-.gh-profile-link-btn:hover svg:last-child {
+.gh-profile-link:hover svg:last-child {
   transform: translate(2px, -2px);
 }
 
@@ -41,7 +41,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  padding: 6rem 0;
+  padding: 5rem 0;
 }
 
 .gh-loading span {
@@ -72,376 +72,35 @@
   animation: loadingSlide 1.5s infinite;
 }
 
-/* Profile Layout Grid */
-.gh-profile-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 2.5rem;
-  align-items: start;
+@keyframes loadingSlide {
+  0% { left: -50%; }
+  100% { left: 100%; }
+}
+
+/* Layout container */
+.gh-activity-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   margin-top: 1rem;
 }
 
-/* Left: GitHub Profile Card */
-.gh-profile-card-left {
-  display: flex;
-  flex-direction: column;
-}
-
-.gh-avatar-wrap {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.02);
-  margin-bottom: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  transition: transform 0.5s var(--ease-out-expo);
-}
-
-.gh-profile-card-left:hover .gh-avatar-wrap {
-  transform: scale(1.02);
-  border-color: rgba(0, 220, 130, 0.3);
-}
-
-.gh-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.gh-user-info {
-  margin-bottom: 1rem;
-}
-
-.gh-user-fullname {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1.15;
-}
-
-.gh-user-login {
-  font-family: var(--font-mono);
-  font-size: 0.95rem;
-  color: var(--text-muted);
-}
-
-.gh-user-bio {
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: var(--text-secondary);
-  margin-bottom: 1rem;
-}
-
-.gh-edit-profile-btn {
-  display: block;
-  width: 100%;
-  padding: 8px 16px;
-  text-align: center;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  background: rgba(33, 38, 45, 0.8);
-  border: 1px solid rgba(240, 246, 252, 0.1);
-  border-radius: 6px;
-  text-decoration: none;
-  margin-bottom: 1.25rem;
-  transition: all 0.3s ease;
-}
-
-.gh-edit-profile-btn:hover {
-  background: rgba(33, 38, 45, 1);
-  border-color: var(--text-secondary);
-}
-
-.gh-follow-stats {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-}
-
-.gh-follow-stat-item {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.gh-follow-stat-item svg {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-}
-
-.gh-follow-stat-item strong {
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.gh-dot-sep {
-  color: var(--text-muted);
-}
-
-.gh-user-meta-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border-top: 1px solid var(--border);
-  padding-top: 1.25rem;
-}
-
-.gh-meta-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-.gh-meta-item svg {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  flex-shrink: 0;
-}
-
-.gh-meta-item a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.gh-meta-item a:hover {
-  color: var(--accent);
-}
-
-/* Right: Tabs & Dynamic Content */
-.gh-profile-content-right {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-/* Tab navigation (exactly like GitHub tabs) */
-.gh-tabs-header {
-  display: flex;
-  gap: 8px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 1.5rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.gh-tabs-header::-webkit-scrollbar {
-  display: none;
-}
-
-.gh-tab-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--text-secondary);
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.3s ease;
-  position: relative;
-  top: 1px;
-}
-
-.gh-tab-btn:hover {
-  color: var(--text-primary);
-  border-bottom-color: rgba(255, 255, 255, 0.1);
-}
-
-.gh-tab-btn.active {
-  color: var(--text-primary);
-  border-bottom-color: #f78166; /* GitHub orange tab underline */
-}
-
-.gh-tab-icon {
-  font-size: 0.9rem;
-}
-
-.gh-tab-badge {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  padding: 2px 6px;
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-}
-
-.gh-tab-content {
-  min-height: 400px;
-}
-
-.gh-tab-pane {
-  display: flex;
-  flex-direction: column;
-}
-
-.gh-section-sub-title {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-}
-
-.gh-section-sub-title.mt-4 {
-  margin-top: 2rem;
-}
-
-/* 1. OVERVIEW: Repos Grid */
-.gh-repos-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.gh-repo-card {
-  padding: 1.25rem;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: rgba(21, 23, 27, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 125px;
-  transition: all 0.3s var(--ease-out-expo);
-}
-
-.gh-repo-card:hover {
-  border-color: rgba(0, 220, 130, 0.3);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
-}
-
-.gh-repo-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 0.5rem;
-}
-
-.gh-repo-name {
-  font-family: var(--font-display);
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--accent);
-  text-decoration: none;
-  transition: color 0.3s;
-  word-break: break-all;
-}
-
-.gh-repo-name:hover {
-  text-decoration: underline;
-  color: var(--accent-secondary);
-}
-
-.gh-repo-badge {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 1px 8px;
-}
-
-.gh-repo-desc {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  line-height: 1.4;
-  margin-bottom: 1.25rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.gh-repo-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.gh-repo-lang {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-}
-
-.gh-lang-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.gh-repo-stat {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-}
-
-.gh-repo-stat svg {
-  font-size: 0.75rem;
-}
-
-/* 2. REPOSITORIES: List View */
-.gh-repos-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.gh-repos-list .gh-repo-card {
-  min-height: auto;
-}
-
-/* Heatmap Pinned Card */
+/* 1. Heatmap Card */
 .gh-heatmap-card {
-  padding: 1.5rem;
-  border-radius: 6px;
-  border: 1px solid var(--border);
+  padding: 2rem;
+  border-radius: 18px;
 }
 
 .gh-heatmap-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .gh-heatmap-title {
   font-family: var(--font-display);
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
   display: flex;
@@ -451,16 +110,28 @@
 
 .gh-heatmap-icon {
   color: var(--accent);
+  font-size: 1.1rem;
 }
 
-/* Heatmap svg integration */
+.gh-heatmap-count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+}
+
 .gh-heatmap-wrap {
   width: 100%;
   overflow-x: auto;
-  border-radius: 6px;
-  background: rgba(10, 10, 15, 0.4);
+  padding: 1.25rem 0.5rem;
+  border-radius: 12px;
+  background: rgba(5, 5, 8, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.02);
-  padding: 1rem 0.5rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
@@ -518,25 +189,93 @@
   border-bottom-style: solid;
 }
 
-/* 3. ACTIVITY TAB: Feed Card */
-.gh-feed-card {
-  padding: 1.5rem;
-  border-radius: 6px;
+/* 2. Bottom Grid Layout */
+.gh-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Stats column */
+.gh-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.gh-stat-card {
+  padding: 1.5rem 1rem;
+  border-radius: 18px;
   border: 1px solid var(--border);
+  background: rgba(15, 15, 20, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-align: center;
+  transition: all 0.4s var(--ease-out-expo);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 140px;
+}
+
+.gh-stat-card:hover {
+  border-color: rgba(0, 220, 130, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.gh-stat-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--accent-glow);
+  border: 1px solid rgba(0, 220, 130, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.75rem;
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.gh-stat-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.gh-stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Live Feed card */
+.gh-feed-column {
+  padding: 2rem;
+  max-height: 480px;
+  display: flex;
+  flex-direction: column;
 }
 
 .gh-feed-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
   border-bottom: 1px solid var(--border);
 }
 
 .gh-feed-title {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -544,18 +283,17 @@
 .gh-feed-live {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-family: var(--font-mono);
   font-size: 0.6rem;
   color: var(--accent);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
 .gh-feed-list {
   display: flex;
   flex-direction: column;
-  max-height: 480px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
@@ -570,11 +308,12 @@
   border-radius: 3px;
 }
 
+/* Activity Item */
 .gh-activity-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 0.85rem 0;
+  padding: 1rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
@@ -583,16 +322,16 @@
 }
 
 .gh-activity-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   flex-shrink: 0;
   transition: all 0.3s;
 }
@@ -606,14 +345,14 @@
 .gh-activity-info {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   min-width: 0;
   flex: 1;
 }
 
 .gh-activity-label {
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
 }
 
@@ -636,85 +375,50 @@
   flex-shrink: 0;
 }
 
-.gh-feed-empty, .gh-empty-tab {
+.gh-feed-empty {
   text-align: center;
-  padding: 4rem 0;
+  padding: 3rem 0;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--text-muted);
 }
 
-/* Responsive design */
+/* Responsive */
 @media (max-width: 1024px) {
-  .gh-profile-layout {
-    grid-template-columns: 240px 1fr;
-    gap: 1.5rem;
+  .gh-bottom-grid {
+    grid-template-columns: 1fr;
   }
 
-  .gh-avatar-wrap {
-    width: 100%;
-  }
-
-  .gh-user-fullname {
-    font-size: 1.4rem;
+  .gh-feed-column {
+    max-height: 400px;
   }
 }
 
 @media (max-width: 768px) {
-  .gh-profile-layout {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .gh-stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
   }
 
-  /* Compact profile card header for mobile */
-  .gh-profile-card-left {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 1.5rem;
+  .gh-stat-card {
+    padding: 1.2rem 0.5rem;
+    min-height: 120px;
   }
 
-  .gh-avatar-wrap {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 0;
-    float: left;
-    margin-right: 1.25rem;
+  .gh-stat-value {
+    font-size: 1.5rem;
   }
 
-  .gh-user-info {
-    float: left;
-    margin-top: 10px;
-    margin-bottom: 0.5rem;
+  .gh-profile-link {
+    display: none;
   }
 
-  .gh-user-fullname {
-    font-size: 1.3rem;
+  .gh-heatmap-card {
+    padding: 1.5rem;
   }
 
-  .gh-user-bio {
-    clear: both;
-    padding-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .gh-edit-profile-btn {
-    margin-bottom: 1rem;
-  }
-
-  .gh-user-meta-list {
-    border-top: none;
-    padding-top: 0.5rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
-  .gh-repos-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .gh-user-meta-list {
-    grid-template-columns: 1fr;
+  .gh-feed-column {
+    padding: 1.5rem;
+    max-height: 350px;
   }
 }

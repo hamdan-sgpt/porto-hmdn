@@ -1,4 +1,4 @@
-import { useRef, useCallback, memo } from 'react';
+import { useRef, useCallback, memo, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { FiMonitor, FiLayout, FiCode, FiGlobe, FiGithub, FiInstagram, FiArrowUpRight } from 'react-icons/fi';
 import { FaReact, FaJs, FaHtml5, FaCss3Alt, FaNodeJs } from 'react-icons/fa';
@@ -8,6 +8,21 @@ import './Bento.css';
 const BentoCard = memo(({ children, className, delay = 0 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(
+        window.innerWidth <= 768 ||
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0
+      );
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Use direct DOM ref for spotlight – no useState re-renders
   const spotlightRef = useRef(null);
@@ -34,9 +49,10 @@ const BentoCard = memo(({ children, className, delay = 0 }) => {
       className={`bento-tilt-wrapper ${className}`}
       perspective={2000}
       glareEnable={false}
+      tiltEnable={!isMobile}
       tiltMaxAngleX={3}
       tiltMaxAngleY={3}
-      scale={1.01}
+      scale={isMobile ? 1 : 1.01}
       transitionSpeed={1500}
     >
       <motion.div

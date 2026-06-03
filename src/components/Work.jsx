@@ -1,4 +1,4 @@
-import { useRef, memo } from 'react';
+import { useRef, memo, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { FiArrowRight } from 'react-icons/fi';
 import Tilt from 'react-parallax-tilt';
@@ -35,13 +35,28 @@ const revealVariant = {
 
 const ProjectCard = memo(({ project, index }) => {
   const cardRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(
+        window.innerWidth <= 768 ||
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0
+      );
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: cardRef,
     offset: ['start end', 'end start']
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 1.1]);
+  const y = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [50, -50]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], isMobile ? [1, 1, 1] : [1.1, 1, 1.1]);
   const isEven = index % 2 === 0;
 
   return (
@@ -51,10 +66,11 @@ const ProjectCard = memo(({ project, index }) => {
       <Tilt
         className="project-tilt-wrapper"
         perspective={1500}
-        glareEnable={true}
+        glareEnable={!isMobile}
         glareMaxOpacity={0.3}
         glarePosition="all"
-        scale={1.02}
+        tiltEnable={!isMobile}
+        scale={isMobile ? 1 : 1.02}
         transitionSpeed={2000}
         tiltMaxAngleX={5}
         tiltMaxAngleY={5}

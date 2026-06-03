@@ -186,80 +186,74 @@
   border: 1px solid var(--border);
 }
 
-.gh-heatmap-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  margin-bottom: 1rem;
-}
-
-.gh-heatmap-row {
-  display: flex;
-  gap: 3px;
-}
-
-.gh-heatmap-cell {
+/* Heatmap Wrap */
+.gh-heatmap-wrap {
   width: 100%;
-  aspect-ratio: 1;
-  border-radius: 3px;
-  transition: all 0.2s;
-  flex: 1;
-  min-width: 0;
-}
-
-.gh-heatmap-cell:hover {
-  transform: scale(1.3);
-  z-index: 2;
-}
-
-.gh-heat-0 {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.gh-heat-1 {
-  background: rgba(0, 220, 130, 0.15);
-  border: 1px solid rgba(0, 220, 130, 0.1);
-}
-
-.gh-heat-2 {
-  background: rgba(0, 220, 130, 0.35);
-  border: 1px solid rgba(0, 220, 130, 0.2);
-}
-
-.gh-heat-3 {
-  background: rgba(0, 220, 130, 0.6);
-  border: 1px solid rgba(0, 220, 130, 0.3);
-}
-
-.gh-heat-4 {
-  background: var(--accent);
-  border: 1px solid rgba(0, 220, 130, 0.5);
-  box-shadow: 0 0 8px rgba(0, 220, 130, 0.3);
-}
-
-.gh-heatmap-legend {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 12px;
+  background: rgba(5, 5, 8, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.02);
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.gh-heatmap-wrap::-webkit-scrollbar {
+  height: 4px;
+}
+
+.gh-heatmap-wrap::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.gh-heatmap-img {
+  min-width: 720px;
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Perfect CSS Filter to map the light grey (#ebedf0) -> deep dark slate, and shift the green shades to match our accent #00dc82 */
+  filter: invert(0.9) hue-rotate(145deg) brightness(0.8) contrast(1.45);
+  transition: all 0.4s var(--ease-out-expo);
+}
+
+.gh-heatmap-card:hover .gh-heatmap-img {
+  filter: invert(0.9) hue-rotate(145deg) brightness(0.95) contrast(1.5);
+}
+
+.gh-heatmap-fallback {
+  width: 100%;
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  text-align: center;
+  line-height: 1.5;
+  padding: 1rem;
 }
 
-.gh-heatmap-legend .gh-heatmap-cell {
-  width: 12px;
-  height: 12px;
-  flex: none;
-  aspect-ratio: auto;
+.gh-heatmap-fallback a {
+  color: var(--accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px dashed rgba(0, 220, 130, 0.4);
+  transition: all 0.3s;
 }
 
-.gh-heatmap-legend span {
-  margin: 0 4px;
+.gh-heatmap-fallback a:hover {
+  color: var(--text-primary);
+  border-bottom-color: var(--accent);
+  border-bottom-style: solid;
 }
+
 
 /* Right: Activity Feed */
 .gh-right {

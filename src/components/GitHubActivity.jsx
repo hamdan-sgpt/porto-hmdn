@@ -60,32 +60,7 @@ function timeAgo(dateString) {
   return `${Math.floor(seconds / 604800)}w ago`;
 }
 
-// Build a 7-row × 15-col heatmap grid from events (last ~15 weeks)
-function buildHeatmap(events) {
-  const grid = Array.from({ length: 7 }, () => Array(15).fill(0));
-  const now = new Date();
-  
-  events.forEach((event) => {
-    const date = new Date(event.created_at);
-    const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-    if (diffDays < 0 || diffDays >= 105) return; // 15 weeks = 105 days
-    const weekIndex = 14 - Math.floor(diffDays / 7);
-    const dayIndex = date.getDay();
-    if (weekIndex >= 0 && weekIndex < 15 && dayIndex >= 0 && dayIndex < 7) {
-      grid[dayIndex][weekIndex] += 1;
-    }
-  });
-  
-  return grid;
-}
 
-function getHeatLevel(count) {
-  if (count === 0) return 0;
-  if (count <= 1) return 1;
-  if (count <= 3) return 2;
-  if (count <= 5) return 3;
-  return 4;
-}
 
 const StatCard = memo(({ icon: Icon, value, label, delay }) => (
   <motion.div
@@ -136,6 +111,7 @@ const GitHubActivity = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
@@ -187,7 +163,6 @@ const GitHubActivity = () => {
     return () => clearInterval(interval);
   }, [isInView, fetchData]);
 
-  const heatmap = buildHeatmap(events);
   const recentEvents = events.slice(0, 8);
 
   if (error && !profile) return null; // Silent fail
@@ -249,33 +224,29 @@ const GitHubActivity = () => {
                 <div className="gh-heatmap-header">
                   <span className="gh-heatmap-title">
                     <FiActivity className="gh-heatmap-icon" />
-                    Activity Heatmap
+                    Activity Heatmap (Past Year)
                   </span>
                   <span className="gh-heatmap-count">
-                    {events.length} events
+                    Real-time Contributions
                   </span>
                 </div>
-                <div className="gh-heatmap-grid">
-                  {heatmap.map((row, dayIndex) => (
-                    <div key={dayIndex} className="gh-heatmap-row">
-                      {row.map((count, weekIndex) => (
-                        <div
-                          key={weekIndex}
-                          className={`gh-heatmap-cell gh-heat-${getHeatLevel(count)}`}
-                          title={`${count} event${count !== 1 ? 's' : ''}`}
-                        />
-                      ))}
+                <div className="gh-heatmap-wrap">
+                  {imgError ? (
+                    <div className="gh-heatmap-fallback">
+                      <span>Unable to load contribution chart directly. View on </span>
+                      <a href={`https://github.com/${GITHUB_USERNAME}`} target="_blank" rel="noopener noreferrer">
+                        GitHub Profile <FiArrowUpRight />
+                      </a>
                     </div>
-                  ))}
-                </div>
-                <div className="gh-heatmap-legend">
-                  <span>Less</span>
-                  <div className="gh-heatmap-cell gh-heat-0" />
-                  <div className="gh-heatmap-cell gh-heat-1" />
-                  <div className="gh-heatmap-cell gh-heat-2" />
-                  <div className="gh-heatmap-cell gh-heat-3" />
-                  <div className="gh-heatmap-cell gh-heat-4" />
-                  <span>More</span>
+                  ) : (
+                    <img 
+                      src={`https://ghchart.rshah.org/00dc82/${GITHUB_USERNAME}`} 
+                      alt="GitHub Contribution Heatmap" 
+                      className="gh-heatmap-img"
+                      loading="lazy"
+                      onError={() => setImgError(true)}
+                    />
+                  )}
                 </div>
               </div>
             </motion.div>

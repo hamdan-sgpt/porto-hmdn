@@ -42,7 +42,8 @@ const Navbar = memo(() => {
       >
         <div className="navbar-inner container">
           <MagneticButton href="#" className="navbar-logo hover-trigger">
-            hams<span className="text-accent">.</span>
+            <img src="/logo.svg" alt="hams logo" className="navbar-logo-img" />
+            <span>hams<span className="text-accent">.</span></span>
           </MagneticButton>
 
           <div className="navbar-links">
